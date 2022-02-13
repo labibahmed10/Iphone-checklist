@@ -30,12 +30,16 @@ document.getElementById("case-minus").addEventListener("click", function () {
 
 //phone and case function
 function updatePhonePrice(increase, priceText, price, quantityText, quantity) {
-  if (increase == true) {
-    priceText.innerText = price * ++quantity;
-    quantityText.value = quantity;
-  } else if (quantity > 0) {
-    priceText.innerText = price * --quantity;
-    quantityText.value = quantity;
+  if (quantity < 0) {
+    return;
+  } else {
+    if (increase == true) {
+      priceText.innerText = price * ++quantity;
+      quantityText.value = quantity;
+    } else if (quantity > 0) {
+      priceText.innerText = price * --quantity;
+      quantityText.value = quantity;
+    }
   }
   totalPricePhone();
 }
@@ -52,18 +56,19 @@ const totalTaxText = document.getElementById("tax");
 const subTotalPriceText = document.getElementById("subtotal");
 
 function totalPricePhone() {
-
   const phonePriceTotal = phonePrice * phoneQuantity;
   const casePriceTotal = casePrice * caseQuantity;
   const result = phonePriceTotal + casePriceTotal;
-  totalPriceText.innerText = result;
+  if (result >= 0) {
+    totalPriceText.innerText = result;
 
-  //taxtotal
-  const totalTax = (result * 10) / 100;
-  totalTaxText.innerText = totalTax.toFixed(2);
+    //taxtotal
+    const totalTax = (result * 10) / 100;
+    totalTaxText.innerText = totalTax.toFixed(2);
 
-  //subtotal
+    //subtotal
 
-  const subTotal = result + totalTax;
-  subTotalPriceText.innerText = subTotal.toFixed(2);
+    const subTotal = result + totalTax;
+    subTotalPriceText.innerText = subTotal.toFixed(2);
+  }
 }
